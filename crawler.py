@@ -121,21 +121,18 @@ class Spider():
     def __init__(self,url):
         self.linkQuence = linkQuence()   #引入linkQuence类
         self.linkQuence.addunvisitedurl(url)   #并将需要爬取的url添加进linkQuence对列中
-        self.current_deepth = 1    #设置爬取的深度
 
-    def crawler(self,crawl_deepth=1):
-        while self.current_deepth <= crawl_deepth:
-            while not self.linkQuence.unvisitedurlsempty():# 若未访问队列非空
-                print("嘀嘀嘀我又爬到一个")
-                visitedurl = self.linkQuence.unvisitedurldequence()# 取一个url
-                if visitedurl is None or visitedurl == '':
-                    continue
-                initial_links=spiderpage(visitedurl) # 爬出该url页面中所有的链接
-                right_links = url_filtrate(initial_links) # 筛选出合格的链接
-                self.linkQuence.addvisitedurl(visitedurl) # 将该url放到访问过的url队列中
-                for link in right_links: # 将筛选出的链接放到未访问队列中
-                    self.linkQuence.addunvisitedurl(link)
-            self.current_deepth += 1 #深度+1
+    def crawler(self):
+        while not self.linkQuence.unvisitedurlsempty():# 若未访问队列非空
+            print("嘀嘀嘀我又爬到一个")
+            visitedurl = self.linkQuence.unvisitedurldequence()# 取一个url
+            if visitedurl is None or visitedurl == '':
+                continue
+            initial_links=spiderpage(visitedurl) # 爬出该url页面中所有的链接
+            right_links = url_filtrate(initial_links) # 筛选出合格的链接
+            self.linkQuence.addvisitedurl(visitedurl) # 将该url放到访问过的url队列中
+            for link in right_links: # 将筛选出的链接放到未访问队列中
+                self.linkQuence.addunvisitedurl(link)
         # print(self.linkQuence.visited)
         print("哥我爬完了")
         return self.linkQuence.visited
@@ -144,6 +141,6 @@ if __name__ == '__main__':
     url=url_get()
     sameurl=url_same(url)
     spider=Spider(url)
-    urllist=spider.crawler(2) # 设置爬取深度，默认为1
+    urllist=spider.crawler()
     writetofile(urllist)
     
