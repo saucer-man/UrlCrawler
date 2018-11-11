@@ -13,7 +13,7 @@ import requests
 try :
     import tldextract
 except:
-    print('module tldextract not fount \nyou try pip install tldextract')
+    print('module tldextract not fount \nyou can try pip install tldextract')
     sys.exit()
 
 
