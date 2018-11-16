@@ -91,8 +91,12 @@ if __name__ == '__main__':
     time.clock()
     domain = domain_get()
     print('domain:', domain)
-    key = tldextract.extract(domain).domain # 获取顶级域名 'https://xiaogeng.top'-->'xiaogeng'
+    key_tmp  = tldextract.extract(domain)
+    # 用于排除外链，爬取的url不包含key的都会被舍弃。
+    # 'https://www.xiaogeng.com.cn/admin?id=6'==>'www.xiaogeng.com.cn'
+    key = key_tmp.subdomain + '.' + key_tmp.domain+'.' + key_tmp.suffix 
     print('key:', key)
+    print('开始爬取...\n')
     spider = spider(domain = domain, key = key, depth = 3)
     spider.run()
     print('结果已保存至result.txt中')
